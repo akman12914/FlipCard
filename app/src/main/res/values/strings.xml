@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">FlipCard</string>
+    <string name="TimeAttack">타임어택</string>
+    <string name="Challenge">챌린지</string>
+    <string name="MyPage">마이 페이지</string>
+    <string name="FlipCard">카드 짝 맞추기 게임</string>
+    <string name="joker">조커</string>
+    <string name="queen">퀸</string>
+    <string name="spadeace">에이스</string>
+
 </resources>
