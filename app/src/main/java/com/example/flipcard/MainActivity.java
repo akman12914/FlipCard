@@ -3,6 +3,7 @@ package com.example.flipcard;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -24,6 +25,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button gameoverbutton = findViewById(R.id.button);
+        gameoverbutton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), gameOverActivity.class);
+                startActivity(intent);
+            }
+
+        });
         final TableLayout tableLayout = (TableLayout) findViewById(R.id.table);
         tableLayout.setShrinkAllColumns(true);
         ImageButton[][] buttons = new ImageButton[4][4]; //나중에 새로운 클래스 만들어서 바꿔야할듯
