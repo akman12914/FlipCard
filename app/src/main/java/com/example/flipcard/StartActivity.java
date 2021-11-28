@@ -15,6 +15,7 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
+
         Button TimeAttack = findViewById(R.id.TimeAttack);
         TimeAttack.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -25,6 +26,17 @@ public class StartActivity extends AppCompatActivity {
 
         });
 
+        Button MyPage = (Button)findViewById(R.id.MyPage);
+        MyPage.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MyActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
+
     }
 
     public void onClick11(View v) {
@@ -32,6 +44,9 @@ public class StartActivity extends AppCompatActivity {
         startActivity(intent);
 //        Toast.makeText(this, "askdjao", Toast.LENGTH_SHORT).show();
     }
+
+
+
 
 
 
