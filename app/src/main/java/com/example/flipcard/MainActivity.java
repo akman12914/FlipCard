@@ -1,34 +1,61 @@
 package com.example.flipcard;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
-import android.widget.ToggleButton;
+import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    //타이머변수설정
+    private static final long START_TIME_IN_MILLIS = 600000;
+
+    private TextView mTextViewCountDown;
+    private Button mButtonStartPause;
+
+    private CountDownTimer mCountDownTimer;
+
+    private boolean mTimerRunning;
+
+    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    //
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //activity_main에서 00:00 부분과 시작버튼 가져옴
+        mTextViewCountDown = findViewById(R.id.text_view_countdown);
+        mButtonStartPause = findViewById(R.id.button_start_pause);
+        //시작버튼에 리스너지정
+        mButtonStartPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mTimerRunning) {
+                    pauseTimer();
+                } else {
+                    startTimer();
+                }
+            }
+        });
+        //시간띄워주는 함수
+        updateCountDownText();
+
         Button gameoverbutton = findViewById(R.id.button);
         gameoverbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         final TableLayout tableLayout = (TableLayout) findViewById(R.id.table);
         tableLayout.setShrinkAllColumns(true);
         CardButton[][] buttons = new CardButton[4][4]; //나중에 새로운 클래스 만들어서 바꿔야할듯
-                                // -> CardButton이라는 BlockButton과 같은 역할을 하는 클래스 생성
+        // -> CardButton이라는 BlockButton과 같은 역할을 하는 클래스 생성
         for (int i = 0; i < 4; i++) {
             final TableRow tableRow = new TableRow(this);
             for (int j = 0; j < 4; j++) {
@@ -112,5 +139,41 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+    }
+//타이머 함수
+    //타이머시작
+    private void startTimer() {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis = millisUntilFinished;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+                mTimerRunning = false;
+                mButtonStartPause.setText("시작하기");
+                mButtonStartPause.setVisibility(View.VISIBLE);
+            }
+        }.start();
+
+        mTimerRunning = true;
+        mButtonStartPause.setText("멈춤");
+    }
+   //타이머 멈춤
+    private void pauseTimer() {
+        mCountDownTimer.cancel();
+        mTimerRunning = false;
+        mButtonStartPause.setText("시작하기");
+    }
+   //시간표시
+    private void updateCountDownText() {
+        int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
+        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+
+        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+
+        mTextViewCountDown.setText(timeLeftFormatted);
     }
 }

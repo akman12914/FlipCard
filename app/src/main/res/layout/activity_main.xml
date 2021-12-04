@@ -25,11 +25,11 @@
                 android:backgroundTint="@color/purple_200"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:text="종료"
+                android:text="종료하기"
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/text_view_countdown"
                 android:layout_width="142dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -40,15 +40,17 @@
                 android:textSize="24sp" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/button_start_pause"
                 android:layout_width="wrap_content"
                 android:layout_height="66dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/purple_200"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:text="다시하기"
-                android:textColor="@color/black" />
+                android:text="시작하기"
+                android:textColor="@color/black"
+                android:visibility="visible"
+                tools:visibility="visible"/>
         </LinearLayout>
 
         <TableLayout
