@@ -23,6 +23,16 @@ public class StartActivity extends AppCompatActivity {
 
         });
 
+        Button Challenge = findViewById(R.id.Challenge);
+        Challenge.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
         Button MyPage = (Button)findViewById(R.id.MyPage);
         MyPage.setOnClickListener(new View.OnClickListener(){
             @Override
