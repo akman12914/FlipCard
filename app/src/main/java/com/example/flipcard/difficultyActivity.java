@@ -24,6 +24,8 @@ public class difficultyActivity extends StartActivity{
     Button easy;
     Button backMain;
 
+    TimeCount hanyeol = new TimeCount();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,7 @@ public class difficultyActivity extends StartActivity{
         hard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hanyeol.setcount(240000);
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
             }
@@ -44,6 +47,7 @@ public class difficultyActivity extends StartActivity{
         normal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hanyeol.setcount(120000);
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
 
@@ -52,6 +56,7 @@ public class difficultyActivity extends StartActivity{
         easy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hanyeol.setcount(0);
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
             }
@@ -64,4 +69,5 @@ public class difficultyActivity extends StartActivity{
             }
         });
     }
+
 }
