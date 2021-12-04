@@ -22,8 +22,11 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    TimeCount hanyeol = new TimeCount();
+
     //타이머변수설정
-    private static final long START_TIME_IN_MILLIS = 600000;
+    private static final long START_TIME_IN_MILLIS = 300000; // 300000, 180000, 60000
+    private long Minus_START_TIME_IN_MILLIS=hanyeol.getcount();
 
     private TextView mTextViewCountDown;
     private Button mButtonStartPause;
@@ -32,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean mTimerRunning;
 
-    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    private long mTimeLeftInMillis = START_TIME_IN_MILLIS-Minus_START_TIME_IN_MILLIS;
+
+
     //
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -176,4 +181,6 @@ public class MainActivity extends AppCompatActivity {
 
         mTextViewCountDown.setText(timeLeftFormatted);
     }
+
+
 }
