@@ -1,5 +1,6 @@
 package com.example.flipcard;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -37,12 +38,21 @@ public class MainActivity extends AppCompatActivity {
 
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS-Minus_START_TIME_IN_MILLIS;
 
+    private CardButton selected_card = null;
+    private CardButton current_card = null;
+    private boolean card_mismatch = false;
+
+    private CardButton[][] buttons;
 
     //
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        selected_card = null;
+        current_card = null;
+        card_mismatch = false;
 
         //activity_main에서 00:00 부분과 시작버튼 가져옴
         mTextViewCountDown = findViewById(R.id.text_view_countdown);
@@ -72,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         });
         final TableLayout tableLayout = (TableLayout) findViewById(R.id.table);
         tableLayout.setShrinkAllColumns(true);
-        CardButton[][] buttons = new CardButton[4][4]; //나중에 새로운 클래스 만들어서 바꿔야할듯
+        buttons = new CardButton[4][4]; //나중에 새로운 클래스 만들어서 바꿔야할듯
         // -> CardButton이라는 BlockButton과 같은 역할을 하는 클래스 생성
         for (int i = 0; i < 4; i++) {
             final TableRow tableRow = new TableRow(this);
@@ -138,14 +148,78 @@ public class MainActivity extends AppCompatActivity {
                 buttons[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((CardButton) v).flipCard();
+                        CardButton card = (CardButton)v;
+                        if ( card_mismatch ) {
+                            if ( current_card != null ) {
+                                current_card.coverCard();
+                            }
+                            if ( selected_card != null ) {
+                                selected_card.coverCard();
+                            }
+                            card_mismatch = false;
+                            current_card = null;
+                            selected_card = null;
+                            return;
+                        }
+                        if ( !card.isFlipped() ) {
+                            card.flipCard();
+                            current_card = card;
+                            if ( selected_card != null ) {
+                                if ( selected_card.cardNumber == card.cardNumber ) {
+                                    card.setMatched(true);
+                                    selected_card.setMatched((true));
+                                    selected_card = null;
+                                    current_card = null;
+                                    boolean all_matched = true;
+                                    for (int i = 0; i < 4; i++) {
+                                        for (int j = 0; j < 4; j++) {
+                                            if (!buttons[i][j].isMatched()) {
+                                                all_matched = false;
+                                                break;
+                                            }
+                                        }
+                                        if (!all_matched) {
+                                            break;
+                                        }
+                                    }
+                                    if ( all_matched ) {
+                                        // setup the alert builder
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                        builder.setTitle("카드게임");
+                                        builder.setMessage("성공!!!");
+
+                                        // add a button
+                                        builder.setPositiveButton("OK", null);
+
+                                        // create and show the alert dialog
+                                        AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                    }
+                                }
+                                else {
+                                    card_mismatch = true;
+//                                    try {
+//                                        Thread.sleep(1000);
+//                                    } catch (InterruptedException e) {
+//                                        e.printStackTrace();
+//                                    }
+//
+//                                    card.coverCard();
+//                                    selected_card.coverCard();
+//                                    selected_card = null;
+                                }
+                            }
+                            else {
+                                selected_card = card;
+                            }
+                        }
                     }
                 });
 
             }
         }
     }
-//타이머 함수
+    //타이머 함수
     //타이머시작
     private void startTimer() {
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
@@ -166,13 +240,13 @@ public class MainActivity extends AppCompatActivity {
         mTimerRunning = true;
         mButtonStartPause.setText("멈춤");
     }
-   //타이머 멈춤
+    //타이머 멈춤
     private void pauseTimer() {
         mCountDownTimer.cancel();
         mTimerRunning = false;
         mButtonStartPause.setText("시작하기");
     }
-   //시간표시
+    //시간표시
     private void updateCountDownText() {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;

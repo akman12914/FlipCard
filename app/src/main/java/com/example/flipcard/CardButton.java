@@ -1,5 +1,6 @@
 package com.example.flipcard;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -8,19 +9,54 @@ import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageButton;
 import android.widget.TableRow;
 
+
 public class CardButton extends ImageButton {
     int x;
     int y;
+    boolean flipped = false;
+    boolean matched = false;
+
     public int cardNumber; //각 버튼이 가질 카드의 번호
     public CardButton(Context context, int x, int y){
         super(context);
         this.x=x;
         this.y=y;
+        this.flipped = false;
+        this.matched = false;
     }
 
 //    public void printnum(){
 //        System.out.println(cardNumber);
 //    }
+
+    public boolean isFlipped() {
+        return flipped;
+    }
+
+    public boolean isMatched() {
+        return matched;
+    }
+
+    public void setMatched(boolean matched) {
+        this.matched = matched;
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void coverCard() {
+        Resources res = getResources();
+        BitmapDrawable bitmapDrawable;
+
+        bitmapDrawable = (BitmapDrawable) res.getDrawable(R.drawable.card_back);
+
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+        bitmap = Bitmap.createScaledBitmap(bitmap, 100, 110, true);
+        this.setImageBitmap(bitmap);
+        this.setBackgroundColor(Color.TRANSPARENT);
+        this.setLayoutParams
+                (new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
+
+        flipped = false;
+    }
 
     public void flipCard(){
         Resources res = getResources();
@@ -49,6 +85,7 @@ public class CardButton extends ImageButton {
         this.setLayoutParams
                 (new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
 
+        flipped = true;
     }
 }
 
