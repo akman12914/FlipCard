@@ -23,6 +23,10 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean ableStart=false;
+    private int remainCard=16;
+    private String remainTime;
+    private String timeLeftFormatted;
     TimeCount hanyeol = new TimeCount();
 
     //타이머변수설정
@@ -63,9 +67,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (mTimerRunning) {
                     pauseTimer();
+                    ableStart=false;
                 } else {
                     startTimer();
+                    ableStart=true;
                 }
+                setButtonAble(ableStart);
             }
         });
         //시간띄워주는 함수
@@ -75,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         gameoverbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), gameOverActivity.class);
+                Intent intent = new Intent(getApplicationContext(), StartActivity.class);
                 startActivity(intent);
             }
 
@@ -98,11 +105,10 @@ public class MainActivity extends AppCompatActivity {
                 buttons[i][j].setLayoutParams
                         (new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f));
                 tableRow.addView(buttons[i][j]);
-
             }
             tableLayout.addView(tableRow);
         }
-
+        setButtonAble(ableStart);
         int x = 0;
         int y = 0; //버튼에 순차적으로 접근하기 위한 인덱스값 (세로부터 접근 0,0->1,0->2,0)
         Random random = new Random();
@@ -167,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                             if ( selected_card != null ) {
                                 if ( selected_card.cardNumber == card.cardNumber ) {
                                     card.setMatched(true);
+                                    remainCard-=2;
                                     selected_card.setMatched((true));
                                     selected_card = null;
                                     current_card = null;
@@ -183,17 +190,9 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                     if ( all_matched ) {
-                                        // setup the alert builder
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                        builder.setTitle("카드게임");
-                                        builder.setMessage("성공!!!");
-
-                                        // add a button
-                                        builder.setPositiveButton("OK", null);
-
-                                        // create and show the alert dialog
-                                        AlertDialog dialog = builder.create();
-                                        dialog.show();
+                                        Intent intent = new Intent(getApplicationContext(), gameClearActivity.class);
+                                        intent.putExtra("remainTime", timeLeftFormatted);
+                                        startActivity(intent);
                                     }
                                 }
                                 else {
@@ -251,9 +250,33 @@ public class MainActivity extends AppCompatActivity {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
 
-        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+//        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
 
         mTextViewCountDown.setText(timeLeftFormatted);
+        if(timeLeftFormatted.equals("00:00")){
+            String remainCardStr=Integer.toString(remainCard);
+            Intent intent = new Intent(getApplicationContext(), gameOverActivity.class);
+            intent.putExtra("remainCard", remainCardStr);
+            startActivity(intent);
+        }
+    }
+    //버튼 활성화/비활성화
+    private void setButtonAble(boolean able){
+        if(able){
+            for(int i=0; i<4; i++){
+                for(int j=0; j<4; j++){
+                    buttons[i][j].setEnabled(true);
+                }
+            }
+        }
+        else{
+            for(int i=0; i<4; i++){
+                for(int j=0; j<4; j++){
+                    buttons[i][j].setEnabled(false);
+                }
+            }
+        }
     }
 
 

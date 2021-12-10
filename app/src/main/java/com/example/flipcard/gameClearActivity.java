@@ -8,24 +8,24 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class gameOverActivity extends AppCompatActivity {
+public class gameClearActivity extends AppCompatActivity {
 
     Button gameOver;
     Button retry;
-    TextView card;
-    String remainCard;
+    TextView time;
+    String remainTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gameoverdialog);
+        setContentView(R.layout.gamecleardialog);
 
         Intent intent=getIntent();
-        remainCard=intent.getStringExtra("remainCard");
+        remainTime=intent.getStringExtra("remainTime");
         gameOver = findViewById(R.id.gameOver);
         retry = findViewById(R.id.retry);
-        card = findViewById(R.id.time);
-        card.setText("남은 카드: "+remainCard);
+        time = findViewById(R.id.time);
+        time.setText("남은 시간: "+remainTime);
 
         gameOver.setOnClickListener(new View.OnClickListener() {
             @Override
