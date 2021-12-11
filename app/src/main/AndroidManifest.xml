@@ -20,6 +20,7 @@
         <activity android:name=".MainActivity"  android:label="@string/FlipCard"></activity>
         <activity android:name=".difficultyActivity" />
         <activity android:name=".MyActivity" />
+        <activity android:name=".ChallengeActivity" />
         <activity android:name=".gameOverActivity" />
         <activity android:name=".gameClearActivity" />
     </application>

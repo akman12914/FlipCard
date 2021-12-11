@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChallengeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:background="@color/black"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@color/purple_200"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:onClick="resetChronometer"
+                android:text="종료하기"
+                android:textColor="@color/black" />
+
+            <Chronometer
+                android:id="@+id/chronometer"
+                android:layout_width="142dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#B83131"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/button_start_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="66dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/purple_200"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="시작하기"
+                android:onClick="startChronometer"
+                android:textColor="@color/black"
+                android:visibility="visible"
+                tools:visibility="visible"/>
+        </LinearLayout>
+
+        <TableLayout
+            android:id="@+id/table"
+            android:layout_width="match_parent"
+            android:layout_height="669dp"
+            android:background="@color/beige" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
