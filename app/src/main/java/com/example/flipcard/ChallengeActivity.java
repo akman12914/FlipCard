@@ -197,7 +197,7 @@ public class ChallengeActivity extends AppCompatActivity {
                                         Intent intent = new Intent(getApplicationContext(), gameClearActivity.class);
                                         intent.putExtra("remainTime", chronometer.getText() );
                                         intent.putExtra("choose",false);
-
+                                        hanyeol.setRecord((String) chronometer.getText());
                                         startActivity(intent);
                                     }
                                 }
