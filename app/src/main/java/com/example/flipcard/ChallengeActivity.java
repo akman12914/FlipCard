@@ -224,16 +224,6 @@ public class ChallengeActivity extends AppCompatActivity {
             }
         }
 
-        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                if ((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 100000) {
-                    chronometer.setBase(SystemClock.elapsedRealtime());
-                    Toast.makeText(ChallengeActivity.this, "Bing!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
     }
 
    public void startChronometer(View v) {
